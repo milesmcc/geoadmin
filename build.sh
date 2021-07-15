@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [ "$#" -ne 2 ]; then
+    echo "Usage: ./build.sh INPUT_URL OUTPUT_LOCATION"
+    exit 1
+fi
+
 echo "GEOADMIN BUILD STARTING"
 echo "-----------------------"
 echo "Here's the plan:"
