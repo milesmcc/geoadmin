@@ -1,0 +1,29 @@
+name: Main
+
+on:
+  schedule:
+    - cron: '42 5 * * *'
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - name: Setup
+        run: "./setup.sh"
+      - name: Build
+        run: "./build.sh https://ftpmirror.your.org/pub/openstreetmap/pbf/planet-latest.osm.pbf output/planet_admin.osm.pbf"
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: output/planet_admin.osm.pbf
+          name: Automatic build ${{ steps.date.outputs.date }}
+          tag: ${{ steps.date.outputs.date }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
