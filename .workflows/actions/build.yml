@@ -1,9 +1,10 @@
-name: Main
+name: Build
 
 on:
   schedule:
     - cron: '42 5 * * *'
   push:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
